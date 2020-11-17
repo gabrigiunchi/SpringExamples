@@ -3,8 +3,10 @@ package com.gabrigiunchi.springexamples.localization
 import com.gabrigiunchi.springexamples.BaseWebTest
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.util.*
 
 class TranslationControllerTest : BaseWebTest() {
 
@@ -33,5 +35,21 @@ class TranslationControllerTest : BaseWebTest() {
                 .header("accept-language", "fr")
         ).andExpect { MockMvcResultMatchers.status().isOk }
             .andExpect { MockMvcResultMatchers.jsonPath("$.message", Matchers.`is`("salut")) }
+
+        mockMv.perform(
+            MockMvcRequestBuilders.get("/translate/hello")
+                .header("accept-language", "sp")
+        ).andExpect { MockMvcResultMatchers.status().isOk }
+            .andExpect { MockMvcResultMatchers.jsonPath("$.message", Matchers.`is`("hello")) }
+
+        Locale.setDefault(Locale.FRANCE)
+        mockMv.get("/translate/hello")
+            .andExpect { MockMvcResultMatchers.status().isOk }
+            .andExpect { MockMvcResultMatchers.jsonPath("$.message", Matchers.`is`("salut")) }
+
+        Locale.setDefault(Locale.ITALIAN)
+        mockMv.get("/translate/hello")
+            .andExpect { MockMvcResultMatchers.status().isOk }
+            .andExpect { MockMvcResultMatchers.jsonPath("$.message", Matchers.`is`("ciao")) }
     }
 }
