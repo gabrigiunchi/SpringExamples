@@ -1,5 +1,6 @@
 package com.gabrigiunchi.springexamples.mockk
 
+import com.gabrigiunchi.springexamples.BaseWebTest
 import io.mockk.every
 import io.mockk.junit5.MockKExtension
 import io.mockk.spyk
@@ -8,20 +9,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringBootConfiguration
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @ExtendWith(MockKExtension::class)
-@AutoConfigureMockMvc
-@SpringBootTest
-class SampleControllerTest {
-
-    @Autowired
-    private lateinit var mockMv: MockMvc
+class SampleControllerTest : BaseWebTest() {
 
     @Autowired
     private lateinit var sampleService: SampleService

@@ -13,7 +13,7 @@ import java.util.*
 class TranslationController(private val messageSource: MessageSource) {
 
     @GetMapping("/{key}")
-    fun translate(@PathVariable key: String, locale: Locale): ResponseEntity<String> {
-        return ResponseEntity.ok(this.messageSource.getMessage(key, null, locale))
+    fun translate(@PathVariable key: String, locale: Locale): ResponseEntity<Map<String, String>> {
+        return ResponseEntity.ok(mapOf("message" to this.messageSource.getMessage(key, null, locale)))
     }
 }
